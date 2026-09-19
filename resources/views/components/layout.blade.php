@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="color-scheme" content="dark">
     @vite(['resources/css/app.css','resources/js/app.js'])
-    <title>PIXL</title>
+    <title>{{$title}}</title>
 </head>
 <body class="bg-pixl-dark text-pixl-light flex gap-8 xl:gap-16 px-4 sm:h-dvh sm:overflow-clip">
     {{$slot}}
