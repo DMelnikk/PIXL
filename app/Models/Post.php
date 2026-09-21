@@ -44,6 +44,11 @@ class Post extends Model
         return $this->belongsTo(Post::class,'repost_of_id');
     }
 
+    public function isRepost(): bool
+    {
+        return $this->repost_of_id != null;
+    }
+
     public static function publish(Profile $profile, $content): self {
         return static::create([
             'profile_id' => $profile->id,
