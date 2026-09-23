@@ -1,9 +1,33 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/dev/login', function() {
+//    $user = User::inRandomOrder()->first();
+    $user = User::find(2);
 
+    Auth::login($user);
+    request()->session()->regenerate();
+
+    return redirect()->intended(route('profile.show', $user->profile));
+})->name('login');
+
+Route::get('/dev/logout', function() {
+
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    return redirect()->intended('/feed');
+});
+
+Route::middleware(['auth'])->group(function() {
+   Route::get('/home',[PostController::class,'index'])->name('posts.index');
+   Route::post('/posts',[PostController::class,'store'])->name('posts.store');
+});
 
 
 
@@ -80,3 +104,8 @@ Route::get('/profile', function () {
 
 Route::get('/{profile:handle}',[ProfileController::class,'show'])->name('profile.show');
 Route::get('/{profile:handle}/with_replies',[ProfileController::class,'replies'])->name('profile.replies');
+
+Route::scopeBindings()->group(function() {
+    Route::get('/{profile:handle}/status/{post}',[PostController::class,'show'])->name('posts.show');
+});
+

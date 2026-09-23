@@ -10,7 +10,7 @@
         <div class="flex justify-between items-center gap-4">
             <div class="flex gap-2.5 items-center">
                 <p><a class="hover:underline" href="{{route('profile.show',$post->profile)}}">{{$post->profile->display_name}}</a></p>
-                <p class="text-xs text-pixl-light/40">{{$post->created_at}}</p>
+                <p class="text-xs text-pixl-light/40"><a href="{{route('posts.show',[$post->profile, $post])}}">{{$post->created_at}}</a></p>
                 <p>
                     <a class="hover:text-pixl-light/60 text-xs text-pixl-light/40" href="{{route('profile.show',$post->profile)}}">{{$post->profile->handle}}</a>
                 </p>
@@ -253,6 +253,16 @@
 
                 </div>
             </div>
+        @endif
+
+        @if($showReplies)
+            <!-- Threaded replies -->
+            <ol>
+                <!-- Reply -->
+                @foreach($post->replies as $reply)
+                    <x-reply :post="$reply" :show-engagement="$showEngagement" :show-replies="$showReplies" />
+                @endforeach
+            </ol>
         @endif
 
     </div>
