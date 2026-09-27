@@ -10,7 +10,9 @@
     <title>{{$title}}</title>
 </head>
 <body class="bg-pixl-dark text-pixl-light flex gap-8 xl:gap-16 px-4 sm:h-dvh sm:overflow-clip">
+<x-navigation />
     {{$slot}}
+<x-aside />
 </body>
 </html>
 
