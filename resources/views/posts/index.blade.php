@@ -1,6 +1,4 @@
 <x-layout title="PIXL - Feed">
-    <!-- Navigation -->
-    @include('partials.navigation')
     <!-- Content -->
     <main class="flex flex-col grow gap-4 overflow-y-auto py-4 px-4 -mx-4">
         <nav class="overflow-x-auto sm:overflow-x-visible scrollbar:none">
@@ -12,17 +10,7 @@
         </nav>
 
         <!-- Post prompt -->
-        <div class="flex mt-8 items-start gap-4 border-b border-pixl-light/10 pb-4">
-            <a href="{{route('profile.show',$profile)}}" class="shrink-0">
-                <img src="{{$profile->avatar_url}}" alt="Avatar for {{$profile->display_name}}" class="size-10 object-cover">
-            </a>
-            <x-post-form
-                :label-text="'Post body'"
-                :field-name="'content'"
-                :placeholder="'What\'s up' . $profile->handle . '?'"
-                :action="route('posts.store')"
-                />
-        </div>
+            <x-post-form />
 
         <!-- Feed -->
         <ol class="mt-4">
@@ -41,6 +29,4 @@
             <div class="h-20 bg-[url(/images/white-noise.gif)]"></div>
         </footer>
     </main>
-    <!-- Sidebar -->
-    @include('partials.aside')
 </x-layout>

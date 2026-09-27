@@ -1,16 +1,18 @@
-<div class="flex mt-8 items-start gap-4 border-b border-pixl-light/10 pb-4">
+<!-- Reply form -->
+<div class="flex mt-8 items-start gap-4 border-t bg-pixl-light/[3%] border-pixl-light/10 p-4">
     <a href="{{route('profile.show',$profile)}}" class="shrink-0">
         <img src="{{$profile->avatar_url}}" alt="Avatar for {{$profile->display_name}}" class="size-10 object-cover">
     </a>
 
-    <form class="grow" method="POST" action="{{route('posts.store')}}">
+    <form class="grow" method="POST" action="{{route('posts.reply',['profile' => $post->profile, 'post' => $post])}}">
         @csrf
-        <label class="sr-only" for="content">Post body</label>
+        <label class="sr-only" for="content">Reply body</label>
         <textarea
             class="text-lg w-full resize-none"
             name="content"
             id="content"
-            placeholder="What's up {{$profile->handle}} ?'"
+            placeholder="Reply to {{$post->profile->display_name}}'s post"
+            rows="5"
     ></textarea>
         <div class="flex justify-between gap-4 items-center">
             <div class="flex gap-4">
