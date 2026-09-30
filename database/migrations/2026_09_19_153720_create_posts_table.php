@@ -20,9 +20,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index('parent_id');
-            $table->index(['profile_id','created_at']);
+            $table->index(['profile_id', 'created_at']);
 
-            $table->unique(['profile_id','repost_of_id'],'uniqute_profile_repost');
+            $table->unique(['profile_id', 'repost_of_id'], 'uniqute_profile_repost');
         });
     }
 

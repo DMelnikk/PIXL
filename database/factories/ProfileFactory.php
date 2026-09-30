@@ -24,9 +24,9 @@ class ProfileFactory extends Factory
             'user_id' => User::factory(),
             'display_name' => $this->faker->name(),
             'handle' => $handle,
-            'bio' => $this->faker->sentences(3,true),
+            'bio' => $this->faker->sentences(3, true),
             'avatar_url' => 'http://dummyimage.com/90x90/eee/000',
-            'cover_url' => 'http://dummyimage.com/1400x640/555/ECA749?text=' . $handle,
+            'cover_url' => 'http://dummyimage.com/1400x640/555/ECA749?text='.$handle,
         ];
     }
 }

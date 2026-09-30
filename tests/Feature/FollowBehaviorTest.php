@@ -2,20 +2,19 @@
 
 use App\Models\Follow;
 use App\Models\Profile;
-use App\Models\Post;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('profile cannot follow itself', function () {
+test('profile cannot follow itself', function (): void {
     $profile = Profile::factory()->create();
 
-    expect(fn() => Follow::createFollow($profile, $profile))
+    expect(fn (): Follow => Follow::createFollow($profile, $profile))
         ->toThrow(InvalidArgumentException::class, 'A profile cannot follow itself.');
 
 });
 
-test('profile can follow another profile', function () {
+test('profile can follow another profile', function (): void {
     $profile1 = Profile::factory()->create();
     $profile2 = Profile::factory()->create();
 
@@ -27,15 +26,12 @@ test('profile can follow another profile', function () {
     expect($follow->following->id)->toBe($profile2->id);
 });
 
-
-
-test('profile can unfollow another profile', function () {
+test('profile can unfollow another profile', function (): void {
     $profile1 = Profile::factory()->create();
     $profile2 = Profile::factory()->create();
 
     $follow = Follow::createFollow($profile1, $profile2);
     $success = Follow::removeFollow($profile1, $profile2);
-
 
     expect($profile1->followings->contains($profile2))->toBeFalse();
     expect($profile2->followers->contains($profile1))->toBeFalse();

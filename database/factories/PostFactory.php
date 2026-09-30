@@ -45,8 +45,8 @@ class PostFactory extends Factory
     public function reply(Post $parentPost)
     {
         return $this->state([
-           'parent_id' => $parentPost->id,
-           'content' => $this->faker->realText(200),
+            'parent_id' => $parentPost->id,
+            'content' => $this->faker->realText(200),
         ]);
     }
 }

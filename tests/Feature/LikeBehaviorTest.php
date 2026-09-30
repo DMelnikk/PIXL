@@ -1,13 +1,13 @@
 <?php
 
 use App\Models\Like;
-use App\Models\Profile;
 use App\Models\Post;
+use App\Models\Profile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('profile can like post', function () {
+test('profile can like post', function (): void {
     $profile = Profile::factory()->create();
     $post = Post::factory()->create();
 
@@ -21,7 +21,7 @@ test('profile can like post', function () {
         ->and($like->profile->is($profile))->toBeTrue();
 });
 
-test('cannot create duplicate likes', function () {
+test('cannot create duplicate likes', function (): void {
     $profile = Profile::factory()->create();
     $post = Post::factory()->create();
 
@@ -31,7 +31,7 @@ test('cannot create duplicate likes', function () {
     expect($l1->id)->toBe($l2->id);
 });
 
-test('can remove a like', function () {
+test('can remove a like', function (): void {
     $profile = Profile::factory()->create();
     $post = Post::factory()->create();
 
@@ -45,4 +45,3 @@ test('can remove a like', function () {
         ->and($post->likes)->contains($like)->toBeFalse()
         ->and($success)->toBeTrue();
 });
-

@@ -1,4 +1,4 @@
-<x-layout title="PIXL - Profile">
+<x-app title="PIXL - Profile">
 
     <!-- Content -->
     <main class="flex flex-col grow gap-4 overflow-y-auto py-4 px-4 -mx-4">
@@ -54,5 +54,5 @@
             <div class="h-20 bg-[url(/images/white-noise.gif)]"></div>
         </footer>
     </main>
-</x-layout>
+</x-app>
 
