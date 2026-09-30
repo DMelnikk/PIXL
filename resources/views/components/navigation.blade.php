@@ -41,7 +41,7 @@
         <!-- Navigation -->
         <nav class="mt-10">
             <ul class="flex flex-col gap-3.5">
-                <li><a class="hover:underline" href="{{route('posts.index')}}">Home</a></li>
+                <li><a class="hover:underline" href="route('posts.index')">Home</a></li>
                 <li><a class="hover:underline" href="#">Explore</a></li>
                 <!-- Active item -->
                 <li class="-ml-4 flex gap-2 items-center">
@@ -61,13 +61,13 @@
     </div>
 
 
-    @if(!request()->routeIs('posts.index'))
-        <div class="flex flex-col gap-6">
-            <button
-                class="bg-pixl hover:bg-pixl/90 border active:bg-pixl/95 border-transparent px-4 py-3 text-pixl-dark text-sm">
-                Post
-            </button>
-    @endif
+{{--    @if(!request()->routeIs('posts.index'))--}}
+{{--        <div class="flex flex-col gap-6">--}}
+{{--            <button--}}
+{{--                class="bg-pixl hover:bg-pixl/90 border active:bg-pixl/95 border-transparent px-4 py-3 text-pixl-dark text-sm">--}}
+{{--                Post--}}
+{{--            </button>--}}
+{{--    @endif--}}
 
 
 
@@ -86,9 +86,9 @@
             <span class="size-1 bg-pixl-light/40 group-hover:bg-pixl-light/60"></span>
         </button>
     </div>
-            @if(!request()->routeIs('posts.index'))
-        </div>
-            @endif
+{{--            @if(!request()->routeIs('posts.index'))--}}
+{{--        </div>--}}
+{{--            @endif--}}
 
 
 

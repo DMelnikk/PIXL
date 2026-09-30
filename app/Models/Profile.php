@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Database\Factories\ProfileFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,14 +12,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['display_name', 'handle','bio','avatar_url'])]
+#[Fillable(['display_name', 'handle', 'bio', 'avatar_url'])]
 class Profile extends Model
 {
-    /** @use HasFactory<\Database\Factories\ProfileFactory> */
+    /** @use HasFactory<ProfileFactory> */
     use HasFactory;
 
-
-    public function user(): belongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(Profile::class);
     }
@@ -31,19 +33,18 @@ class Profile extends Model
         return $this->hasMany(Post::class)->whereNull('parent_id');
     }
 
-    public function likes(): hasMany
+    public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
     }
 
-    public function followers(): belongsToMany
+    public function followers(): BelongsToMany
     {
-        return $this->belongsToMany(Profile::class,'follows','following_profile_id','follower_profile_id');
+        return $this->belongsToMany(Profile::class, 'follows', 'following_profile_id', 'follower_profile_id');
     }
 
-    public function followings(): belongsToMany
+    public function followings(): BelongsToMany
     {
-        return $this->belongsToMany(Profile::class,'follows','follower_profile_id','following_profile_id');
+        return $this->belongsToMany(Profile::class, 'follows', 'follower_profile_id', 'following_profile_id');
     }
-
 }

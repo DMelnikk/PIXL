@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\View\Components;
 
 use App\Models\Post;
@@ -16,8 +18,7 @@ class Reply extends Component
         public Post $post,
         public bool $showEngagement = true,
         public bool $showReplies = false,
-    )
-    {}
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
