@@ -2,6 +2,7 @@
 import Layout from "../../Layouts/layout.vue";
 import PostForm from "@/Pages/Components/PostForm.vue";
 import Post from "@/Pages/Components/Post.vue";
+import AppFooter from "@/Pages/Components/AppFooter.vue";
 
 defineProps({
     profile: Object,
@@ -31,13 +32,8 @@ defineProps({
                 <Post v-for="item in posts" :key="item.id" :post="item"/>
             </ol>
 
-            <!-- Footer -->
-            <footer class="mt-30 ml-14">
-                <p class="text-center">That's all, Folks</p>
-                <hr class="border-pixl-light/10 my-4">
-                <!-- White noise image -->
-                <div class="h-20 bg-[url(/images/white-noise.gif)]"></div>
-            </footer>
+
+            <AppFooter />
         </main>
 
     </Layout>

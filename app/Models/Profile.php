@@ -20,7 +20,7 @@ class Profile extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(Profile::class);
+        return $this->belongsTo(User::class);
     }
 
     public function posts(): HasMany
@@ -43,8 +43,18 @@ class Profile extends Model
         return $this->belongsToMany(Profile::class, 'follows', 'following_profile_id', 'follower_profile_id');
     }
 
+    public function follow(Profile $profile)
+    {
+        Follow::createFollow($this,$profile);
+    }
+
     public function followings(): BelongsToMany
     {
         return $this->belongsToMany(Profile::class, 'follows', 'follower_profile_id', 'following_profile_id');
+    }
+
+    public function isFollowing(Profile $profile): bool
+    {
+        return $this->followings()->where('following_profile_id',$profile->id)->exists();
     }
 }

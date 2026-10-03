@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::redirect('/','/home');
+Route::get('/', HomeController::class)->middleware('guest');
 
 if (app()->isLocal()) {
     Route::get('/dev/login', function () {
@@ -23,7 +24,7 @@ if (app()->isLocal()) {
         request()->session()->invalidate();
         request()->session()->regenerateToken();
 
-        return redirect()->intended('/feed');
+        return redirect('/');
     });
 }
 
@@ -38,12 +39,14 @@ Route::middleware(['auth'])->group(function (): void {
         Route::post('/{profile:handle}/status/{post}/destroy', [PostController::class, 'destroy'])->name('posts.destroy');
 
         Route::post('/{profile:handle}/status/{post}/reply', [PostController::class, 'reply'])->name('posts.reply');
-        Route::post('/{profile:handle}/status/{post}/like', [PostController::class, 'reply'])->name('posts.like');
+        Route::post('/{profile:handle}/status/{post}/like', [PostController::class, 'like'])->name('posts.like');
         Route::post('/{profile:handle}/status/{post}/unlike', [PostController::class, 'unlike'])->name('posts.unlike');
     });
 
-    Route::post('/{profile:handle}/follow', [ProfileController::class, 'follow'])->name('profiles.follow');
-    Route::post('/{profile:handle}/status/{post}/unfollow', [ProfileController::class, 'unfollow'])->name('profile.unfollow');
+    Route::post('/{profile:handle}/follow', [ProfileController::class, 'follow'])->name('profile.follow');
+
+    Route::post('/{profile:handle}/unfollow',
+        [ProfileController::class, 'unfollow'])->name('profile.unfollow');
 
 });
 
