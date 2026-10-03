@@ -25,24 +25,30 @@ class PostController extends Controller
 
         $posts = TimeLineQuery::forViewer($profile)->get();
 
-        return Inertia::render('Posts/Index', ['profile' => $profile, 'posts' => $posts]);
+        return Inertia::render('Posts/Index', [
+            'profile' => $profile->toResource(),
+            'posts' => $posts->toResourceCollection()
+        ]);
     }
 
-    public function show(Profile $profile, Post $post): Factory|View
+    public function show(Profile $profile, Post $post)
     {
 
         $post = PostThreadQuery::for($post, Auth::user()?->profile)->load();
 
-        return view('posts.show', ['post' => $post]);
+        return Inertia::render('Posts/Show', [
+            'post' => $post->toResource()
+        ]);
     }
 
     public function store(CreatePostRequest $createPostRequest): Redirector|RedirectResponse
     {
+
         $profile = Auth::user()->profile;
 
         Post::publish($profile, $createPostRequest->validated('content'));
 
-        return redirect(route('posts.index'));
+        return to_route('posts.index');
     }
 
     public function reply(Profile $profile, Post $post, CreatePostRequest $createPostRequest): Redirector|RedirectResponse
@@ -51,7 +57,7 @@ class PostController extends Controller
 
         Post::reply($currentProfile, $post, $createPostRequest->validated('content'));
 
-        return redirect(route('posts.index'));
+        return back();
     }
 
     public function repost(Profile $profile, Post $post): Redirector|RedirectResponse
@@ -60,7 +66,7 @@ class PostController extends Controller
 
         Post::repost($currentProfile, $post);
 
-        return redirect(route('posts.index'));
+        return to_route('posts.index');
     }
 
     public function quote(Profile $profile, Post $post, CreatePostRequest $createPostRequest): Redirector|RedirectResponse
@@ -69,49 +75,41 @@ class PostController extends Controller
 
         Post::repost($currentProfile, $post, $createPostRequest->validated('content'));
 
-        return redirect(route('posts.index'));
+        return to_route('posts.index');
     }
 
     public function like(Profile $profile, Post $post)
     {
         $currentProfile = Auth::user()->profile;
 
-        $like = Like::createLike($currentProfile, $post);
+        Like::createLike($currentProfile, $post);
 
-        return response()->json(['like' => $like]);
+        return back();
     }
 
     public function unlike(Profile $profile, Post $post)
     {
         $currentProfile = Auth::user()->profile;
 
-        $success = Like::removeLike($currentProfile, $post);
+        Like::removeLike($currentProfile, $post);
 
-        return response()->json(['success' => $success]);
+        return back();
     }
 
     public function destroy(Profile $profile, Post $post)
     {
-        $currentProfile = Auth::user()->profile;
-        $success = false;
-
-        if ($currentProfile->id === $profile->id) {
-            $success = $post->delete() > 0;
-
-            return response()->json(['success' => $success]);
+        // Authorization...
+        // If the current can update this post..
+        if(Auth::user()->can('update',$post)) {
+            $post->delete();
         }
 
-        $repost = $post
+        $post
             ->reposts()
-            ->where('profile_id', $currentProfile->id)
-            ->first();
+            ->where('profile_id', Auth::user()->profile->id)
+            ->first()
+            ?->delete();
 
-        if (! is_null($repost)) {
-            $success = $repost->delete() > 0;
-
-            return response()->json(['success' => $success]);
-        }
-
-        return response()->json(['success' => $success]);
+        return back();
     }
 }
