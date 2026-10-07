@@ -27,3 +27,8 @@ Homestead.yaml
 Thumbs.db
 /tests/Browser/Screenshots
 /tests/Browser/Traces
+/.claude
+/.mcp.json
+/boost.json
+/CLAUDE.md
+/guidelines.md
